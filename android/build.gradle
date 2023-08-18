@@ -97,13 +97,5 @@ dependencies {
   //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native:+"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  implementation "com.google.android.exoplayer:exoplayer:2.19.1"
-}
-
-if (isNewArchitectureEnabled()) {
-  react {
-    jsRootDir = file("../src/")
-    libraryName = "RadioPlayer"
-    codegenJavaPackageName = "com.radioplayer"
-  }
+  implementation "com.google.android.exoplayer:exoplayer:2.18.7"
 }
