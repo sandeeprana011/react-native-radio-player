@@ -23,7 +23,8 @@ enum class PlayerState(val state: String) {
   BUFFERING("buffering"),
 }
 
-class RadioPlayerModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext), Player.Listener, MetadataOutput {
+class RadioPlayerModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext), MetadataOutput,
+  Player.Listener {
 
   private val context = reactContext
   private var player: SimpleExoPlayer = SimpleExoPlayer.Builder(reactContext).build()
@@ -39,6 +40,7 @@ class RadioPlayerModule(reactContext: ReactApplicationContext) : ReactContextBas
   init {
     UiThreadUtil.runOnUiThread {
       player.addAnalyticsListener(EventLogger(DefaultTrackSelector(this.context)))
+//      player.setThrowsWhenUsingWrongThread(true)
       player.setWakeMode(WAKE_MODE_NETWORK)
       player.addListener(this)
     }
