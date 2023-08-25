@@ -37,6 +37,13 @@ class RadioPlayerModule(reactContext: ReactApplicationContext) : ReactContextBas
 
   init {
     UiThreadUtil.runOnUiThread {
+      val audioAttributes = AudioAttributes.Builder()
+        .setUsage(C.USAGE_MEDIA)
+        .setContentType(C.AUDIO_CONTENT_TYPE_MUSIC)
+        .build()
+      if (player.audioComponent != null) {
+        player.audioComponent?.setAudioAttributes(audioAttributes, true)
+      }
       player.addAnalyticsListener(EventLogger(DefaultTrackSelector(this.context)))
 //      player.setThrowsWhenUsingWrongThread(true)
       player.setWakeMode(WAKE_MODE_NETWORK)
