@@ -1,19 +1,30 @@
 package com.radioplayer
 
 import android.util.Log
-import com.facebook.react.bridge.*
-import com.facebook.react.modules.core.DeviceEventManagerModule.RCTDeviceEventEmitter
+import com.facebook.react.bridge.NativeMap
+import com.facebook.react.bridge.ReactApplicationContext
+import com.facebook.react.bridge.ReactContext
+import com.facebook.react.bridge.ReactContextBaseJavaModule
+import com.facebook.react.bridge.ReactMethod
+import com.facebook.react.bridge.UiThreadUtil
+import com.facebook.react.bridge.WritableNativeMap
+import com.facebook.react.modules.core.DeviceEventManagerModule
 import com.google.android.exoplayer2.C
 import com.google.android.exoplayer2.C.WAKE_MODE_NETWORK
+import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.audio.AudioAttributes
 import com.google.android.exoplayer2.metadata.Metadata
 import com.google.android.exoplayer2.metadata.MetadataOutput
 import com.google.android.exoplayer2.metadata.icy.IcyInfo
+import com.google.android.exoplayer2.source.DefaultMediaSourceFactory
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
+import com.google.android.exoplayer2.upstream.DefaultDataSource
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
+import com.google.android.exoplayer2.upstream.HttpDataSource
 import com.google.android.exoplayer2.util.EventLogger
+
 
 enum class PlayerState(val state: String) {
   ERROR("error"),
@@ -27,7 +38,16 @@ class RadioPlayerModule(reactContext: ReactApplicationContext) : ReactContextBas
   Player.Listener {
 
   private val context = reactContext
-  private var player: SimpleExoPlayer = SimpleExoPlayer.Builder(reactContext).build()
+//  private var player: SimpleExoPlayer = SimpleExoPlayer.Builder(reactContext).build()
+var httpDataSourceFactory: HttpDataSource.Factory? =
+  DefaultHttpDataSource.Factory().setAllowCrossProtocolRedirects(true)
+  var dataSourceFactory: DefaultDataSource.Factory = DefaultDataSource.Factory(
+    context,
+    httpDataSourceFactory!!
+  )
+  var player: ExoPlayer = ExoPlayer.Builder(context)
+    .setMediaSourceFactory(DefaultMediaSourceFactory(dataSourceFactory))
+    .build()
   private var playbackState: Int = Player.STATE_IDLE
   private var state: PlayerState? = null
 
