@@ -17,8 +17,8 @@ RCT_EXTERN_METHOD(radioURLWithMetadataSeparator:(NSString *)url
 RCT_EXTERN_METHOD(play:(RCTPromiseResolveBlock)resolve
                  withRejecter:(RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(isPlaying:(RCTPromiseResolveBlock)resolve
-                 withRejecter:(RCTPromiseRejectBlock)reject)
+// RCT_EXTERN_METHOD(isPlaying:(RCTPromiseResolveBlock)resolve
+                //  withRejecter:(RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(stop:(RCTPromiseResolveBlock)resolve
                  withRejecter:(RCTPromiseRejectBlock)reject)

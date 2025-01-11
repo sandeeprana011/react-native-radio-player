@@ -77,6 +77,14 @@ class RadioPlayer: RCTEventEmitter, FRadioPlayerDelegate {
         player.radioURL = radioURL
     }
     
+    @objc(isPlaying:withRejecter:)
+    func isPlaying(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
+        if (radioURL == nil) {
+            print("radioURL not set")
+            return
+        }
+    }
+    
     @objc(stop:withRejecter:)
     func stop(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
         player.stop()
